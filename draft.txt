@@ -1,0 +1,11 @@
+main funnction:
+    manage
+        add to menu
+        remove from menu 
+        update/edit menu item
+        list menu items
+        back to main
+    sales
+        list menu
+    customer
+        list menu
