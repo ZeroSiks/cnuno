@@ -8,6 +8,14 @@ menu = {
     'Drinks': ['Coke', 'Fanta']
 }
 
+price_list = {
+    'Mashuni': '24',
+    'Kulhimas': '55',
+    'Carbonara': '64',
+    'Nasegoreng': '24',
+    'Coke': '92',
+    'Fanta': '100'
+}
 
 
 def list_menu():
@@ -51,43 +59,75 @@ def edit_menu_item():
 
 # remove_menu_item()
 
+def validate_order_input():
+    while True:
+        ord = input('Please enter the name of the menu item to add to your order: ')
+        if any(ord in menu[cat] for cat in menu):
+            return ord
+        else:
+            print(ord + ' is not on the menu you blockhead!!')
+
+def print_bill():
+    bill_total = 0
+    for item in current_order:
+        bill_total += int(price_list[item])
+    print('Total is MVR' + str(bill_total))
+
+def new_order():
+        while True:
+
+            ord = validate_order_input()
+            
+            current_order.append(ord)
+            print(ord + ' has been added to the order!')
+
+
+            print('Your current order is: ')
+            print(str(current_order))
+            cont = input('Would you like to add more items? (y/n): ')
+            if cont != 'y':
+                break;
+        print('You order is: ' + str(current_order))
+        
+        print_bill()
+        
+
+def browse():
+        list_menu()
+        ready = input('Are you ready to order?')
+        if ready == 'y':
+            new_order()
+        elif ready == 'n':
+            list_menu()
+        else:
+            print("Invalid response given, please enter 'y' or 'n'")
+            browse()
+
 
 ## MAIN FUNCTION
 current_order = []
 
 print('Greetings, welcome to our automated order tracking app!')
 # browse menu
-boo = input('Would you like to:\n1) Browse our menu\n2) Place an order\nbrowse / order: ')
 
-if boo == 'browse':
-    list_menu()
-    print('Are you ready to order?')
-elif boo == 'order':
-    # choose menu item:
-    while True:
+while True:
+    # user selection menu on start:
+    # users are admin, waitor, customer
 
-        ord = input('Please enter the name of the menu item to add to your order: ')
-        if any(ord in menu[cat] for cat in menu):
-            current_order.append(ord)
-            print(ord + ' has been added to the order!')
-        else:
-            print(ord + ' is not on the menu you blockhead!!')
 
-        print('Your current order is: ')
-        print(str(current_order))
-        cont = input('Would you like to add more items? (y/n): ')
-        if cont != 'y':
-            break;
-    print('You order is: ' + str(current_order))
-    print('Total is $921')
-            # ask if additional items are needed
-            # if 1:
-            # add to order again
 
-            # if 2: finalize order()
-            # confirm order
-            #print_order()
-            # your total is $$$
+    boo = input('Would you like to:\n1) Browse our menu\n2) Place an order\nEnter number 1-2: ')
+
+    if boo == '1':
+        browse()
+        break
+    elif boo == '2':
+        # choose menu item:
+        new_order()
+        break
+    else:
+        print('Invalid number entered!\n')
+
 
 
 
