@@ -1,21 +1,36 @@
 # WELCOME TO CNUNO
 
+import json
 
 menu = {
-    'Breakfast': ['Mashuni', 'Kulhimas'],
-    'Italian': ['Carbonara'],
-    'Asian': ['Nasegoreng'],
-    'Drinks': ['Coke', 'Fanta']
+    'Breakfast': {
+        'Mashuni': 54,
+        'Kulhimas': 53
+        },
+    'Italian': {
+        'Carbonara': 54,
+        'Pasta': 44
+        },
+    'Asian': {
+        'Nasegoreng'
+        },
+    'Drinks': {
+        'Coke': 43,
+        'Fanta': 22
+        }
 }
 
-price_list = {
-    'Mashuni': '24',
-    'Kulhimas': '55',
-    'Carbonara': '64',
-    'Nasegoreng': '24',
-    'Coke': '92',
-    'Fanta': '100'
-}
+
+def save_menu():
+    try:
+        with open(menu_db, 'w') as file:
+            json.dump(menu, file, indent=4)
+        print('Current menu has been saved to the database')
+    except Exception as error:
+        print(f'Menu could not be saved due to the following error: {e}')
+
+
+
 
 
 def list_menu():
@@ -71,7 +86,12 @@ def print_bill():
     bill_total = 0
     for item in current_order:
         bill_total += int(price_list[item])
-    print('Total is MVR' + str(bill_total))
+    print('Total is MVR ' + str(bill_total))
+    print('Would you like to proceed with the payment?')
+    if proceed == 'y':
+        calculate_payables()
+    else:
+        ''
 
 def new_order():
         while True:
@@ -94,7 +114,7 @@ def new_order():
 
 def browse():
         list_menu()
-        ready = input('Are you ready to order?')
+        ready = input('Are you ready to order? (y/n)')
         if ready == 'y':
             new_order()
         elif ready == 'n':
