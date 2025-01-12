@@ -15,15 +15,13 @@ menu = {
         'Pasta': 44
         },
     'Asian': {
-        'Nasegoreng'
+        'Nasegoreng': 45
         },
     'Drinks': {
         'Coke': 43,
         'Fanta': 22
         }
 }
-
-
 
 def save_menu():
     try:
@@ -109,22 +107,16 @@ def print_bill():
 
 def new_order():
         while True:
-
             ord = validate_order_input()
-            
             current_order.append(ord)
             print(ord + ' has been added to the order!')
-
-
             print('Your current order is: ')
             print(str(current_order))
             cont = input('Would you like to add more items? (y/n): ')
             if cont != 'y':
                 break;
-        print('You order is: ' + str(current_order))
-        
+        print('You order is: ' + str(current_order)) 
         print_bill()
-        
 
 def browse():
         list_menu()
@@ -141,6 +133,7 @@ def browse():
 # if admin:
 def admin_menu():
     while True:
+        print("--------------")
         print('Welcome ADMIN!')
         print('1) Browse the menu')
         print('2) Add new menu item')
@@ -167,6 +160,8 @@ def admin_menu():
 # if waitor
 def waitor_menu():
     while True:
+        print("-------------")
+        print('Hello Waitor!')
         print('1) Browse the menu')
         print('2) Take an order')
         print('3) Billing')
@@ -189,6 +184,7 @@ def waitor_menu():
 # if customer
 def customer_menu():
     while True:
+        print("----------------------")
         print('1) Browse the menu')
         print('2) Rate our restaurant')
         print('3) Exit')
@@ -208,8 +204,8 @@ def customer_menu():
 ## MAIN FUNCTION
 current_order = []
 
-print("-------------------------------------------------------------")
-print('Greetings, Welcome to CNUNO! The best meal you will ever have!')
+print("--------------------------------------------------------------")
+print('Greetings, Welcome to CNUNO! Home of "TOTALLY" original recipes!')
 
 while True:
     # admin or waitor or customer
@@ -248,29 +244,3 @@ while True:
             raise Exception
     except:
         pass
-
-
-
-
-
-    
-
-    # boo = input('Would you like to:\n1) Browse our menu\n2) Place an order\nEnter number 1-2: ')
-
-    # if boo == '1':
-    #     browse()
-    #     break
-    # elif boo == '2':
-    #     # choose menu item:
-    #     new_order()
-    #     break
-    # else:
-    #     print('Invalid number entered!\n')
-
-
-
-
-# add_to_order(choose_menu_item())
-
-# elif 2:
-# add_to_order(choose_menu_item())
