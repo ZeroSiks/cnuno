@@ -30,6 +30,16 @@ def save_menu():
         print(f'Menu could not be saved due to the following error: {e}')
 
 
+def load_menu():
+    global menu
+    try:
+        with open(menu_db, "r") as file:
+            menu = json.load(file)
+        print('Menu has been loaded from the database')
+    except FileNotFoundError:
+        print('DB file not found, using a new DB')
+    except json.JSONDecodeError:
+        print('Error reading the DB file')
 
 
 
