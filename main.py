@@ -1,6 +1,9 @@
 # WELCOME TO CNUNO
 
 import json
+menu_db = 'menu.json'
+admin_password = 'abcd'
+waitor_password = '1234'
 
 menu = {
     'Breakfast': {
@@ -20,6 +23,24 @@ menu = {
         }
 }
 
+# if admin:
+def admin_menu():
+    print('1) Browse the menu')
+    print('2) Add new menu item')
+    print('3) Remove menu item')
+    print('4) Edit menu item')
+    print('5) Exit')
+# if waitor
+def waitor_menu():
+    print('1) Browse the menu')
+    print('2) Take an order')
+    print('3) Billing')
+    print('4) Exit')
+# if customer
+def customer_menu():
+    print('1) Browse the menu')
+    print('2) Rate our restaurant')
+    print('3) Exit')
 
 def save_menu():
     try:
@@ -137,26 +158,59 @@ def browse():
 ## MAIN FUNCTION
 current_order = []
 
+
 print('Greetings, welcome to our automated order tracking app!')
-# browse menu
 
 while True:
-    # user selection menu on start:
-    # users are admin, waitor, customer
+    # admin or waitor or customer
+    try:
+        print("----------------------------------")
+        print('Please login:')
+        user = input('1) Admin\n2) Waitor\n3) Customer')
+        if user == '1':
+            password = input('Enter the admin password: ')
+            if password == admin_password:
+                admin_menu()
+                break;
+            else:
+                print('Invalid password entered!\n')
+                raise Exception
+        elif user == '2':
+            password = input('Enter the waitor password: ')
+            if password == waitor_password:
+                waitor_menu()
+                break;
+            else:
+                print('Invalid password entered!\n')
+                raise Exception
+        elif user == '3':
+            customer_menu()
+            break;
+        elif user == '4':
+            break
+        else:
+            print('Invalid user!!\n')
+            raise Exception
+    except:
+        pass
 
 
 
-    boo = input('Would you like to:\n1) Browse our menu\n2) Place an order\nEnter number 1-2: ')
 
-    if boo == '1':
-        browse()
-        break
-    elif boo == '2':
-        # choose menu item:
-        new_order()
-        break
-    else:
-        print('Invalid number entered!\n')
+
+    
+
+    # boo = input('Would you like to:\n1) Browse our menu\n2) Place an order\nEnter number 1-2: ')
+
+    # if boo == '1':
+    #     browse()
+    #     break
+    # elif boo == '2':
+    #     # choose menu item:
+    #     new_order()
+    #     break
+    # else:
+    #     print('Invalid number entered!\n')
 
 
 
