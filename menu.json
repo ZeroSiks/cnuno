@@ -1,0 +1,17 @@
+{
+    "Breakfast": {
+        "Mashuni": 54,
+        "Kulhimas": 53
+    },
+    "Italian": {
+        "Carbonara": 54,
+        "Pasta": 44
+    },
+    "Asian": {
+        "Nasegoreng": 45
+    },
+    "Drinks": {
+        "Coke": 43,
+        "Fanta": 22
+    }
+}
