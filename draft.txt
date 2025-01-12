@@ -9,3 +9,18 @@ main funnction:
         list menu
     customer
         list menu
+
+
+        Build a simple text-based restaurant management system with the following features:
+        Menu Management: 
+        Add, 
+        ✅ remove, or 
+        update items in the menu.
+
+        Order Management: 
+        ✅ Take customer orders and 
+        ✅calculate bills.
+
+
+        Billing System: 
+        Generate and display the total bill for each table, including applicable taxes.
