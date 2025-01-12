@@ -23,24 +23,7 @@ menu = {
         }
 }
 
-# if admin:
-def admin_menu():
-    print('1) Browse the menu')
-    print('2) Add new menu item')
-    print('3) Remove menu item')
-    print('4) Edit menu item')
-    print('5) Exit')
-# if waitor
-def waitor_menu():
-    print('1) Browse the menu')
-    print('2) Take an order')
-    print('3) Billing')
-    print('4) Exit')
-# if customer
-def customer_menu():
-    print('1) Browse the menu')
-    print('2) Rate our restaurant')
-    print('3) Exit')
+
 
 def save_menu():
     try:
@@ -155,11 +138,78 @@ def browse():
             browse()
 
 
+# if admin:
+def admin_menu():
+    while True:
+        print('Welcome ADMIN!')
+        print('1) Browse the menu')
+        print('2) Add new menu item')
+        print('3) Remove menu item')
+        print('4) Edit menu item')
+        print('5) Exit')
+
+        choice = input('Please choose an option: ')
+        if choice == '1':
+            list_menu()
+        elif choice == '2':
+            add_menu_item()
+        elif choice == '3':
+            remove_menu_item()
+        elif choice == '4':
+            edit_menu_item()
+        elif choice == '5':
+            print('Exiting the admin menu..')
+            break
+        else:
+            print('Invalid choice entered!')
+
+
+# if waitor
+def waitor_menu():
+    while True:
+        print('1) Browse the menu')
+        print('2) Take an order')
+        print('3) Billing')
+        print('4) Exit')
+
+        choice = input('Please choose an option: ')
+        if choice == '1':
+            list_menu()
+        elif choice == '2':
+            "take order"
+        elif choice == '3':
+            "generate bill"
+        elif choice == '4':
+            print('Exiting the admin menu..')
+            break
+        else:
+            print('Invalid choice entered!')
+
+
+# if customer
+def customer_menu():
+    while True:
+        print('1) Browse the menu')
+        print('2) Rate our restaurant')
+        print('3) Exit')
+
+        choice = input('Please choose an option: ')
+        if choice == '1':
+            list_menu()
+        elif choice == '2':
+            "rate"
+        elif choice == '3':
+            print('Exiting the admin menu..')
+            break
+        else:
+            print('Invalid choice entered!')
+
+
 ## MAIN FUNCTION
 current_order = []
 
-
-print('Greetings, welcome to our automated order tracking app!')
+print("-------------------------------------------------------------")
+print('Greetings, Welcome to CNUNO! The best meal you will ever have!')
 
 while True:
     # admin or waitor or customer
@@ -167,6 +217,7 @@ while True:
         print("----------------------------------")
         print('Please login:')
         user = input('1) Admin\n2) Waitor\n3) Customer')
+
         if user == '1':
             password = input('Enter the admin password: ')
             if password == admin_password:
@@ -175,6 +226,7 @@ while True:
             else:
                 print('Invalid password entered!\n')
                 raise Exception
+
         elif user == '2':
             password = input('Enter the waitor password: ')
             if password == waitor_password:
@@ -183,11 +235,14 @@ while True:
             else:
                 print('Invalid password entered!\n')
                 raise Exception
+
         elif user == '3':
             customer_menu()
             break;
+
         elif user == '4':
             break
+        
         else:
             print('Invalid user!!\n')
             raise Exception
