@@ -2,26 +2,21 @@
 
 import json
 menu_db = 'menu.json'
-admin_password = 'abcd'
-waitor_password = '1234'
+keys = {}
+menu = {}
 
-menu = {
-    'Breakfast': {
-        'Mashuni': 54,
-        'Kulhimas': 53
-        },
-    'Italian': {
-        'Carbonara': 54,
-        'Pasta': 44
-        },
-    'Asian': {
-        'Nasegoreng': 45
-        },
-    'Drinks': {
-        'Coke': 43,
-        'Fanta': 22
-        }
-}
+try:
+    with open('keys.json', "r") as file:
+        keys = json.load(file)
+    print('Passwords have been loaded from keys file')
+except json.JSONDecodeError:
+    print('Error reading the keys file')
+
+
+admin_password = keys["admin_password"]
+waitor_password = keys["waitor_password"]
+
+
 
 def save_menu():
     try:
@@ -225,8 +220,9 @@ def customer_menu():
 
 ## MAIN FUNCTION
 current_order = []
+load_menu()
 
-print("--------------------------------------------------------------")
+print("----------------------------------------------------------------")
 print('Greetings, Welcome to CNUNO! Home of "TOTALLY" original recipes!')
 
 while True:
@@ -234,7 +230,7 @@ while True:
     try:
         print("----------------------------------")
         print('Please login:')
-        user = input('1) Admin\n2) Waitor\n3) Customer')
+        user = input('1) Admin\n2) Waitor\n3) Customer\nChoose a user: ')
 
         if user == '1':
             password = input('Enter the admin password: ')
