@@ -48,13 +48,11 @@ def list_menu():
     category = choose_category()
     print('Below are the items available in that category: ')
     print(list(menu[category].keys()))
-
-def list_categories():
-    for category in list(menu.keys()):
-        print(category, end=', ')
+    input('Press enter to continue..')
 
 def choose_category():
-    list_categories()
+    for category in list(menu.keys()):
+        print(category, end=', ')
     
     while True:
         try:
@@ -89,20 +87,17 @@ def add_menu_item():
 
 
 def remove_menu_item():
-    for category in list(menu.keys()):
-        print(category, end=', ')
-    category = input('Please choose a category to remove from').title()
-    if category in list(menu.keys()):
-        print(menu[category])
-        item_to_remove = input('Please choose an item to remove')
-        if item_to_remove in menu[category]:
-            yes_or_no = print(f'You are about to remove {item_to_remove} from {category}, do you wish to proceed? (Y/n): ')
-            if yes_or_no == 'n':
-                'go back'
-            else:
-                menu[category].pop(menu[category].index(item_to_remove))
-                # print(menu[category])
-                print(item_to_remove + ' has been removed from the menu!')
+    category = choose_category()
+    item_to_remove = choose_item(category)
+
+    confirmation = input(f'You are about to remove {item_to_remove} from the menu, do you wish to proceed? (y/N): ')
+    if confirmation == 'y':
+        del menu[category][item_to_remove]
+        print(list(menu[category].keys()))
+        print(item_to_remove + ' has been removed from the menu!')
+    else:
+        input('Cancelled! Press enter to return to admin menu..')
+
 def edit_menu_item():
     ''
 
@@ -264,7 +259,6 @@ while True:
             break;
 
         elif user == '4':
-            print(str(choose_item('Drinks')) + ' Will be removed')
             break
         
         else:
