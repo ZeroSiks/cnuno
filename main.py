@@ -16,16 +16,13 @@ except json.JSONDecodeError:
 admin_password = keys["admin_password"]
 waitor_password = keys["waitor_password"]
 
-
-
 def save_menu():
     try:
         with open(menu_db, 'w') as file:
             json.dump(menu, file, indent=4)
-        print('Current menu has been saved to the database')
+        print('Current menu has been saved to the database!')
     except Exception as error:
         print(f'Menu could not be saved due to the following error: {e}')
-
 
 def load_menu():
     global menu
@@ -42,13 +39,15 @@ def list_menu():
     print('These are the categories available: ')
     category = choose_category()
     print('Below are the items available in that category: ')
-    print(list(menu[category].keys()))
+    for item in menu[category]:
+        print(f'{item}: MVR {menu[category][item]}')
+    # print(list(menu[category]))
     input('Press enter to continue..')
 
 def choose_category():
     for category in list(menu.keys()):
         print(category, end=', ')
-    
+
     while True:
         try:
             chosen_category = input('\nPlease choose a category: ').title()
@@ -58,7 +57,6 @@ def choose_category():
                 return chosen_category
         except:
             print('Not a valid category!')
-
 
 def choose_item(category):
     print(list(menu[category].keys()))
@@ -74,11 +72,18 @@ def choose_item(category):
             print('Item not in list!')
 
 def add_menu_item():
-    ''
     # select category
+    category = choose_category()
     # enter name of item
+    new_item = input('Please enter the name of the new item to add: ')
     # enter price
+    new_item_price = input('Please enter the price for ' + new_item)
     # show details and confirm
+    print(f'{new_item} costing MVR {new_item_price} will be added to {category}')
+    confirm = input('Proceed? (y/n): ')
+    if confirm == 'y':
+        menu[category][new_item] = int(new_item_price)
+        input('Successfully added! Press enter to return..')
 
 
 def remove_menu_item():
@@ -94,14 +99,20 @@ def remove_menu_item():
         input('Cancelled! Press enter to return to admin menu..')
 
 def edit_menu_item():
-    ''
+    category = choose_category()
+    item_to_edit = choose_item(category)
 
+    choice = input('1) Edit name\n2) Edit price\nChoose an option: ')
+    if choice == '1':
+        new_name = input('Enter new name: ')
+        menu[category][new_name] = menu[category].pop(item_to_edit)
+        print(f'{item_to_edit} has successfully been renamed to {new_name}')
+        input('Press enter to return..')
+    elif choice == '2':
+        new_price = int(input('Enter new price (MVR): '))
+        menu[category][item_to_edit] = new_price
+        print('done')
 
-
-
-
-
-# remove_menu_item()
 
 def validate_order_input():
     while True:
@@ -153,10 +164,11 @@ def admin_menu():
         print("--------------------")
         print('Welcome ADMIN!')
         print('1) Browse the menu')
-        print('2) Add new menu item')
-        print('3) Remove menu item')
-        print('4) Edit menu item')
-        print('5) Exit')
+        print('2) Add item')
+        print('3) Remove item')
+        print('4) Edit item')
+        print('5) Save current menu')
+        print('6) Exit')
 
         choice = input('Please choose an option: ')
         if choice == '1':
@@ -168,6 +180,8 @@ def admin_menu():
         elif choice == '4':
             edit_menu_item()
         elif choice == '5':
+            save_menu()
+        elif choice == '6':
             print('Exiting the admin menu..')
             break
         else:
