@@ -5,17 +5,8 @@ menu_db = 'menu.json'
 keys = {}
 menu = {}
 
-try:
-    with open('keys.json', "r") as file:
-        keys = json.load(file)
-    print('Passwords have been loaded from keys file')
-except json.JSONDecodeError:
-    print('Error reading the keys file')
 
-
-admin_password = keys["admin_password"]
-waitor_password = keys["waitor_password"]
-
+## DEFINE THE FUNCTIONS
 def save_menu():
     try:
         with open(menu_db, 'w') as file:
@@ -41,7 +32,6 @@ def list_menu():
     print('Below are the items available in that category: ')
     for item in menu[category]:
         print(f'{item}: MVR {menu[category][item]}')
-    # print(list(menu[category]))
     input('Press enter to continue..')
 
 def choose_category():
@@ -85,7 +75,6 @@ def add_menu_item():
         menu[category][new_item] = int(new_item_price)
         input('Successfully added! Press enter to return..')
 
-
 def remove_menu_item():
     category = choose_category()
     item_to_remove = choose_item(category)
@@ -111,7 +100,8 @@ def edit_menu_item():
     elif choice == '2':
         new_price = int(input('Enter new price (MVR): '))
         menu[category][item_to_edit] = new_price
-        print('done')
+        print(f'The price for {item_to_edit} has successfully been changed to {new_price}')
+        input('Press enter to return..')
 
 
 def validate_order_input():
@@ -145,17 +135,6 @@ def new_order():
                 break;
         print('You order is: ' + str(current_order)) 
         print_bill()
-
-def browse():
-        list_menu()
-        ready = input('Are you ready to order? (y/n)')
-        if ready == 'y':
-            new_order()
-        elif ready == 'n':
-            list_menu()
-        else:
-            print("Invalid response given, please enter 'y' or 'n'")
-            browse()
 
 
 # if admin:
@@ -232,19 +211,36 @@ def customer_menu():
             print('Invalid choice entered!')
 
 
-## MAIN FUNCTION
+
+## INIT
+print('-- PROGRAM INITIALIZING :D --')
+try:
+    with open('keys.json', "r") as file:
+        keys = json.load(file)
+    print('Passwords have been loaded from keys file')
+except json.JSONDecodeError:
+    print('Error reading the keys file')
+
+
+admin_password = keys["admin_password"]
+waitor_password = keys["waitor_password"]
+
 current_order = []
 load_menu()
+print('-- INITIALIZATION COMPLETE! :D --')
 
-print("----------------------------------------------------------------")
+
+## MAIN FUNCTION
+print("================================================================")
 print('Greetings, Welcome to CNUNO! Home of "TOTALLY" original recipes!')
+print("================================================================")
 
 while True:
     # admin or waitor or customer
     try:
-        print("----------------------------------")
+        print("--------------")
         print('Please login:')
-        user = input('1) Admin\n2) Waitor\n3) Customer\nChoose a user: ')
+        user = input('1) Admin\n2) Waitor\n3) Customer\n4) Exit\nChoose a user: ')
 
         if user == '1':
             password = input('Enter the admin password: ')
