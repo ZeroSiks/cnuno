@@ -43,20 +43,42 @@ def load_menu():
     except json.JSONDecodeError:
         print('Error reading the DB file')
 
-
-
 def list_menu():
     print('These are the categories available: ')
+    category = choose_category()
+    print('Below are the items available in that category: ')
+    print(list(menu[category].keys()))
+
+def list_categories():
     for category in list(menu.keys()):
         print(category, end=', ')
-    category = input('\nCategory name: ').title()
-    if category in list(menu.keys()):
-        print('Below are the items available in that category: ')
-        print(menu[category])
 
-        
-    # for menu_item in menu:
-    #     print(f'{menu_item}: {str(menu[menu_item])}')
+def choose_category():
+    list_categories()
+    
+    while True:
+        try:
+            chosen_category = input('\nPlease choose a category: ').title()
+            if chosen_category not in list(menu.keys()):
+                pass
+            else:
+                return chosen_category
+        except:
+            print('Not a valid category!')
+
+
+def choose_item(category):
+    print(list(menu[category].keys()))
+    while True:
+        try:
+            chosen_item = input('Please choose an item: ').title()
+            if chosen_item not in menu[category]:
+                raise Exception
+                pass
+            else:
+                return chosen_item
+        except:
+            print('Item not in list!')
 
 def add_menu_item():
     ''
@@ -83,6 +105,11 @@ def remove_menu_item():
                 print(item_to_remove + ' has been removed from the menu!')
 def edit_menu_item():
     ''
+
+
+
+
+
 
 # remove_menu_item()
 
@@ -133,7 +160,7 @@ def browse():
 # if admin:
 def admin_menu():
     while True:
-        print("--------------")
+        print("--------------------")
         print('Welcome ADMIN!')
         print('1) Browse the menu')
         print('2) Add new menu item')
@@ -160,7 +187,7 @@ def admin_menu():
 # if waitor
 def waitor_menu():
     while True:
-        print("-------------")
+        print("-------------------")
         print('Hello Waitor!')
         print('1) Browse the menu')
         print('2) Take an order')
@@ -175,7 +202,7 @@ def waitor_menu():
         elif choice == '3':
             "generate bill"
         elif choice == '4':
-            print('Exiting the admin menu..')
+            print('Exiting the waitor menu..')
             break
         else:
             print('Invalid choice entered!')
@@ -184,7 +211,7 @@ def waitor_menu():
 # if customer
 def customer_menu():
     while True:
-        print("----------------------")
+        print("-----------------------")
         print('1) Browse the menu')
         print('2) Rate our restaurant')
         print('3) Exit')
@@ -195,7 +222,7 @@ def customer_menu():
         elif choice == '2':
             "rate"
         elif choice == '3':
-            print('Exiting the admin menu..')
+            print('Exiting..')
             break
         else:
             print('Invalid choice entered!')
@@ -237,6 +264,7 @@ while True:
             break;
 
         elif user == '4':
+            print(str(choose_item('Drinks')) + ' Will be removed')
             break
         
         else:
