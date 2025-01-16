@@ -4,7 +4,8 @@ import json
 menu_db = 'menu.json'
 keys = {}
 menu = {}
-
+tables = {}
+tax = 0.8 # %
 
 ## DEFINE THE FUNCTIONS
 def save_menu():
@@ -48,11 +49,11 @@ def choose_category():
         except:
             print('Not a valid category!')
 
-def choose_item(category):
+def choose_item(category, prompt):
     print(list(menu[category].keys()))
     while True:
         try:
-            chosen_item = input('Please choose an item: ').title()
+            chosen_item = input(prompt).title()
             if chosen_item not in menu[category]:
                 raise Exception
                 pass
@@ -77,7 +78,7 @@ def add_menu_item():
 
 def remove_menu_item():
     category = choose_category()
-    item_to_remove = choose_item(category)
+    item_to_remove = choose_item(category, 'Please choose an item to remove: ')
 
     confirmation = input(f'You are about to remove {item_to_remove} from the menu, do you wish to proceed? (y/N): ')
     if confirmation == 'y':
@@ -89,7 +90,7 @@ def remove_menu_item():
 
 def edit_menu_item():
     category = choose_category()
-    item_to_edit = choose_item(category)
+    item_to_edit = choose_item(category, 'Please choose an item to edit: ')
 
     choice = input('1) Edit name\n2) Edit price\nChoose an option: ')
     if choice == '1':
@@ -103,6 +104,55 @@ def edit_menu_item():
         print(f'The price for {item_to_edit} has successfully been changed to {new_price}')
         input('Press enter to return..')
 
+
+
+
+def take_order():
+    table_number = input('Enter the table number: ')
+    if table_number not in tables:
+        tables[table_number] = []
+
+    while True:
+        order_item = input("Please choose an item to order, (Type 'finish' to complete ordering): ").title()
+
+        if order_item == 'Finish':
+            print('Finishing up..')
+            break
+
+        for category, item in menu.items():
+            if order_item in item:
+                try:
+                    qty = int(input('Enter the quantity of the item to order: '))
+
+                    if qty <= 0:
+                        print('Quantity must be atleast one!')
+                        continue
+
+                    tables[table_number].append([order_item, qty])
+                    print(f'Successfully added {qty}x {order_item} to table {table_number} order!')
+                    break
+
+                except ValueError:
+                    print("Invalid quantity. Please enter a number.")
+                break
+        else:
+            print('Item not in list or quantity error!')
+
+    print(tables)
+
+
+def new_order():
+        while True:
+            ord = validate_order_input()
+            current_order.append(ord)
+            print(ord + ' has been added to the order!')
+            print('Your current order is: ')
+            print(str(current_order))
+            cont = input('Would you like to add more items? (y/n): ')
+            if cont != 'y':
+                break;
+        print('You order is: ' + str(current_order)) 
+        print_bill()
 
 def validate_order_input():
     while True:
@@ -122,20 +172,6 @@ def print_bill():
         calculate_payables()
     else:
         ''
-
-def new_order():
-        while True:
-            ord = validate_order_input()
-            current_order.append(ord)
-            print(ord + ' has been added to the order!')
-            print('Your current order is: ')
-            print(str(current_order))
-            cont = input('Would you like to add more items? (y/n): ')
-            if cont != 'y':
-                break;
-        print('You order is: ' + str(current_order)) 
-        print_bill()
-
 
 # if admin:
 def admin_menu():
@@ -181,7 +217,7 @@ def waitor_menu():
         if choice == '1':
             list_menu()
         elif choice == '2':
-            "take order"
+            take_order()
         elif choice == '3':
             "generate bill"
         elif choice == '4':
@@ -265,6 +301,7 @@ while True:
             break;
 
         elif user == '4':
+            take_order()
             break
         
         else:
