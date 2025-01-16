@@ -1,13 +1,15 @@
 # WELCOME TO CNUNO
 
-import json
+import json, random
 menu_db = 'menu.json'
 keys = {}
 menu = {}
 tables = {}
-tax = 0.8 # %
+tax = 0.08 # %
 
 ## DEFINE THE FUNCTIONS
+
+## MENU RELATED
 def save_menu():
     try:
         with open(menu_db, 'w') as file:
@@ -34,33 +36,6 @@ def list_menu():
     for item in menu[category]:
         print(f'{item}: MVR {menu[category][item]}')
     input('Press enter to continue..')
-
-def choose_category():
-    for category in list(menu.keys()):
-        print(category, end=', ')
-
-    while True:
-        try:
-            chosen_category = input('\nPlease choose a category: ').title()
-            if chosen_category not in list(menu.keys()):
-                pass
-            else:
-                return chosen_category
-        except:
-            print('Not a valid category!')
-
-def choose_item(category, prompt):
-    print(list(menu[category].keys()))
-    while True:
-        try:
-            chosen_item = input(prompt).title()
-            if chosen_item not in menu[category]:
-                raise Exception
-                pass
-            else:
-                return chosen_item
-        except:
-            print('Item not in list!')
 
 def add_menu_item():
     # select category
@@ -104,9 +79,36 @@ def edit_menu_item():
         print(f'The price for {item_to_edit} has successfully been changed to {new_price}')
         input('Press enter to return..')
 
+## ITEM RELATED
+def choose_category():
+    for category in list(menu.keys()):
+        print(category, end=', ')
+
+    while True:
+        try:
+            chosen_category = input('\nPlease choose a category: ').title()
+            if chosen_category not in list(menu.keys()):
+                pass
+            else:
+                return chosen_category
+        except:
+            print('Not a valid category!')
+
+def choose_item(category, prompt):
+    print(list(menu[category].keys()))
+    while True:
+        try:
+            chosen_item = input(prompt).title()
+            if chosen_item not in menu[category]:
+                raise Exception
+                pass
+            else:
+                return chosen_item
+        except:
+            print('Item not in list!')
 
 
-
+## ORDER RELATED
 def take_order():
     table_number = input('Enter the table number: ')
     if table_number not in tables:
@@ -140,39 +142,45 @@ def take_order():
 
     print(tables)
 
-
-def new_order():
-        while True:
-            ord = validate_order_input()
-            current_order.append(ord)
-            print(ord + ' has been added to the order!')
-            print('Your current order is: ')
-            print(str(current_order))
-            cont = input('Would you like to add more items? (y/n): ')
-            if cont != 'y':
-                break;
-        print('You order is: ' + str(current_order)) 
-        print_bill()
-
-def validate_order_input():
-    while True:
-        ord = input('Please enter the name of the menu item to add to your order: ')
-        if any(ord in menu[cat] for cat in menu):
-            return ord
-        else:
-            print(ord + ' is not on the menu you blockhead!!')
-
 def print_bill():
     bill_total = 0
-    for item in current_order:
-        bill_total += int(price_list[item])
-    print('Total is MVR ' + str(bill_total))
-    print('Would you like to proceed with the payment?')
-    if proceed == 'y':
-        calculate_payables()
-    else:
-        ''
+    invoice_num = random.randrange(1000, 5000)
 
+    table_number = input('Enter the table number: ')
+    if table_number not in tables:
+        print('Selected table is empty!')
+        return
+    
+    f = open(f"invoices/invoice_{invoice_num}.txt", "x")
+
+    f.write(f"\nCNUNO Invoice #{invoice_num} [TB: {table_number}]")
+    f.write("\n---------------------------")
+
+    for order_item, qty in tables[table_number]:
+        for category, menu_items in menu.items():
+            if order_item in menu_items:
+                price = menu_items[order_item] * qty
+                bill_total += price
+                f.write(f"\n{qty}x {order_item}: MVR {price:.2f}")
+                break
+    
+    tax_charge = tax * bill_total
+    f.write("\n---------------------------")
+    f.write(f'\nSubtotal: MVR {bill_total:.2f}')
+    f.write(f'\nGST (8%): MVR {tax_charge:.2f}')
+    f.write(f'\nTOTAL: MVR {(bill_total + tax_charge):.2f}')
+    f.write("\n---------------------------")
+
+    f.close()
+
+    f = open(f"invoices/invoice_{invoice_num}.txt", "r")
+    print(f.read())
+    f.close()
+
+    input('Press enter to continue..')
+    
+
+## USER MENU RELATED
 # if admin:
 def admin_menu():
     while True:
@@ -202,7 +210,6 @@ def admin_menu():
         else:
             print('Invalid choice entered!')
 
-
 # if waitor
 def waitor_menu():
     while True:
@@ -219,13 +226,12 @@ def waitor_menu():
         elif choice == '2':
             take_order()
         elif choice == '3':
-            "generate bill"
+            print_bill()
         elif choice == '4':
             print('Exiting the waitor menu..')
             break
         else:
             print('Invalid choice entered!')
-
 
 # if customer
 def customer_menu():
@@ -301,7 +307,6 @@ while True:
             break;
 
         elif user == '4':
-            take_order()
             break
         
         else:
